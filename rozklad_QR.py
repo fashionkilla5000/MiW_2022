@@ -3,11 +3,9 @@ import numpy as np
 import math as m
 from numpy.linalg import inv
 
-A = np.array([[0, 2], [2, 3]])
-
-
-# A = np.transpose(A)
-
+# A = np.array([[0, 2, 3], [2, 3, 3], [1, 2, 3]])
+# A = np.array([[12, -51, 4], [6, 167, -68], [-4, 24, -41]])
+A = np.array([[0,2],[2,3]])
 
 def obliczE(u):
     return u / (m.sqrt(np.dot(u, u)))
@@ -22,23 +20,22 @@ def obliczU(v, proj):
 
 
 def RozkladQR(A):
-    v1 = A[0]
-    v2 = A[1]
-    u1 = v1
-    e1 = obliczE(u1)
 
-    u2 = obliczU(v2, obliczProj(v2, u1))
-    e2 = obliczE(u2)
+    u = []
+    e = []
+    u.append(A[0])
+    e.append(obliczE(u[0]))
+    for v in range(1,len(A)):
+        u.append(obliczU(A[v],obliczProj(A[v],u[v-1])))
+        e.append(obliczE(u[v]))
 
-    print("u1" + str(u1))
-    print("e1" + str(e1))
-    print("u2" + str(u2))
-    print("e2" + str(e2))
-    Q = np.concatenate(([e1], [e2]), axis=0)
-    # Q = np.concatenate(([e1], [e2]), axis=0).transpose()
+
+
+    Q = np.array(e)
+
     print("Q", Q)
     R = np.dot(Q.transpose(), A)
-    # R = np.dot(Q.transpose(), A)
+
     print("R", R)
     return Q,R
 
@@ -51,7 +48,6 @@ def obliczWartosciWlasne(A):
 
     for x in range(20):
         Q,R = RozkladQR(A)
-
         A = np.dot(R,Q)
         print('---------')
         print('A')
