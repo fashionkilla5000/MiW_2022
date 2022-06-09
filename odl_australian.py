@@ -7,7 +7,7 @@ for x in f.readlines():
     tmp = x.split()
     lista.append(list(map(lambda e: float(e),tmp)))
 
-print(lista)
+print('lista:',lista)
 
 def metryka_euklides(row1, row2):
     odleglosc = 0.0
@@ -30,7 +30,7 @@ def knn(row1,k):
 
     k_posortowane = posortowane[:k]
 
-    print(k_posortowane)
+    print('posortowane k odleglosci:',k_posortowane)
 
     slownik = {}
     for x in k_posortowane:
@@ -39,16 +39,16 @@ def knn(row1,k):
         else:
             slownik[x[0]] += [x[1]]
 
-    print(slownik)
+    print('slownik odleglosci dla decyzji',slownik)
 
     for key, value in slownik.items():
         slownik[key] = sum(value)
 
-    print(slownik)
+    print('suma odl dla decyzji',slownik)
 
     return min(slownik, key=slownik.get)
 
-
+print('Decyzja:')
 print(knn(row1, k))
 
 exit()

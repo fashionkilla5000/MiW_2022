@@ -1,9 +1,12 @@
 import random as r
 import numpy as np
 import math as m
+from numpy.linalg import inv
 
-A = np.array([[1, 1, 0], [0, 1, 1]])
-A = np.transpose(A)
+A = np.array([[0, 2], [2, 3]])
+
+
+# A = np.transpose(A)
 
 
 def obliczE(u):
@@ -19,8 +22,8 @@ def obliczU(v, proj):
 
 
 def RozkladQR(A):
-    v1 = A[:, 0]
-    v2 = A[:, 1]
+    v1 = A[0]
+    v2 = A[1]
     u1 = v1
     e1 = obliczE(u1)
 
@@ -31,12 +34,27 @@ def RozkladQR(A):
     print("e1" + str(e1))
     print("u2" + str(u2))
     print("e2" + str(e2))
-    Q = np.concatenate(([e1], [e2]), axis=0).transpose()
+    Q = np.concatenate(([e1], [e2]), axis=0)
+    # Q = np.concatenate(([e1], [e2]), axis=0).transpose()
     print("Q", Q)
     R = np.dot(Q.transpose(), A)
+    # R = np.dot(Q.transpose(), A)
     print("R", R)
+    return Q,R
 
-    print(np.dot(np.dot(Q.transpose(), A), Q.transpose()))
+
+RozkladQR(A)
 
 
-print(RozkladQR(A))
+
+def obliczWartosciWlasne(A):
+
+    for x in range(20):
+        Q,R = RozkladQR(A)
+
+        A = np.dot(R,Q)
+        print('---------')
+        print('A')
+        print(A)
+
+print(obliczWartosciWlasne(A))
